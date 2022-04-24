@@ -1,9 +1,9 @@
-matplotlib>=2.0.2
-numpy==1.14.2
-pyrddl>=0.1.8
-rddlgym>=0.5.8
-rddl2tf>=0.5.1
-Sphinx==1.7.6
-tensorflow==1.12.2
-tensorflow-tensorboard==1.5.1
-typing==3.6.4
+matplotlib==3.5.1
+numpy==1.22.3
+pyrddl==0.1.10
+Sphinx==4.5.0
+tensorboard==2.8.0
+tensorflow==2.8.0
+typing==3.7.4
+# git+https://github.com/danielbdias/rddlgym.git@main#egg=rddlgym
+# git+https://github.com/danielbdias/rddl2tf.git@main#egg=rddl2tf

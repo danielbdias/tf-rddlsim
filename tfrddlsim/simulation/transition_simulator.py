@@ -34,7 +34,7 @@ CellOutput = Tuple[StatesTensor, ActionsTensor, IntermsTensor, tf.Tensor]
 CellState = Sequence[tf.Tensor]
 
 
-class ActionSimulationCell(tf.nn.rnn_cell.RNNCell):
+class ActionSimulationCell(tf.compat.v1.nn.rnn_cell.RNNCell):
     '''ActionSimulationCell implements an MDP transition cell.
 
     It extends a RNNCell in order to simulate the next state,

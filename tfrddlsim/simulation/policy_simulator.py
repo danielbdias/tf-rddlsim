@@ -46,10 +46,10 @@ TrajectoryOutput = Tuple[StateTensor, StatesTensor, ActionsTensor, IntermsTensor
 SimulationOutput = Tuple[NonFluentsArray, StateArray, StatesArray, ActionsArray, IntermsArray, np.array]
 
 
-class PolicySimulationCell(tf.nn.rnn_cell.RNNCell):
+class PolicySimulationCell(tf.compat.v1.nn.rnn_cell.RNNCell):
     '''SimulationCell implements a 1-step MDP transition cell.
 
-    It extends`tf.nn.rnn_cell.RNNCell` for simulating an MDP transition for a given policy.
+    It extends`tf.compat.v1.nn.rnn_cell.RNNCell` for simulating an MDP transition for a given policy.
     The cell input is the timestep. The hidden state is the factored MDP state.
     The cell output is the tuple of MDP fluents (next-state, action, interm, rewards).
 
@@ -250,7 +250,7 @@ class PolicySimulator(object):
 
         with self.graph.as_default():
             self.inputs = self.timesteps(horizon)
-            outputs, _ = tf.nn.dynamic_rnn(
+            outputs, _ = tf.compat.v1.nn.dynamic_rnn(
                                 self._cell,
                                 self.inputs,
                                 initial_state=initial_state,
@@ -291,7 +291,7 @@ class PolicySimulator(object):
         trajectory = self.trajectory(horizon, initial_state)
 
         with tf.compat.v1.Session(graph=self.graph) as sess:
-            sess.run(tf.global_variables_initializer())
+            sess.run(tf.compat.v1.global_variables_initializer())
             non_fluents = sess.run(self._non_fluents)
             initial_state, states, actions, interms, rewards = sess.run(trajectory)
 

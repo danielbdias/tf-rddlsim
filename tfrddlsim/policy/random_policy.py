@@ -185,14 +185,14 @@ class RandomPolicy(Policy):
             bounds = constraints.get(name)
             if bounds is None:
                 low, high = -self.MAX_REAL_VALUE, self.MAX_REAL_VALUE
-                dist = tf.distributions.Uniform(low=low, high=high)
+                dist = tf.compat.v1.distributions.Uniform(low=low, high=high)
                 sampled_fluent = dist.sample(shape)
             else:
                 low, high = bounds
                 batch = (low is not None and low.batch) or (high is not None and high.batch)
                 low = tf.cast(low.tensor, tf.float32) if low is not None else -self.MAX_REAL_VALUE
                 high = tf.cast(high.tensor, tf.float32) if high is not None else self.MAX_REAL_VALUE
-                dist = tf.distributions.Uniform(low=low, high=high)
+                dist = tf.compat.v1.distributions.Uniform(low=low, high=high)
                 if batch:
                     sampled_fluent = dist.sample()
                 elif isinstance(low, tf.Tensor) or isinstance(high, tf.Tensor):
@@ -204,14 +204,14 @@ class RandomPolicy(Policy):
                     sampled_fluent = dist.sample(shape)
         elif dtype == tf.int32:
             logits = [1.0] * self.MAX_INT_VALUE
-            dist = tf.distributions.Categorical(logits=logits, dtype=tf.int32)
+            dist = tf.compat.v1.distributions.Categorical(logits=logits, dtype=tf.int32)
             sampled_fluent = dist.sample(shape)
         elif dtype == tf.bool:
             probs = 0.5
-            dist = tf.distributions.Bernoulli(probs=probs, dtype=tf.bool)
+            dist = tf.compat.v1.distributions.Bernoulli(probs=probs, dtype=tf.bool)
             sampled_fluent = dist.sample(shape)
 
-        select_default = tf.distributions.Bernoulli(prob, dtype=tf.bool).sample(self.batch_size)
+        select_default = tf.compat.v1.distributions.Bernoulli(prob, dtype=tf.bool).sample(self.batch_size)
         action_fluent = tf.where(select_default, default_value, sampled_fluent)
 
         return action_fluent
